@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Securo Cybershield - Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>🛡️ Securo</h1>
+                <p>Cybershield</p>
+            </div>
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" data-section="dashboard">
+                    <span class="icon">📊</span> Dashboard
+                </a>
+                <a href="#" class="nav-item" data-section="phishing">
+                    <span class="icon">🔍</span> Phishing Detection
+                </a>
+                <a href="#" class="nav-item" data-section="password">
+                    <span class="icon">🔐</span> Password Security
+                </a>
+                <a href="#" class="nav-item" data-section="alerts">
+                    <span class="icon">🚨</span> Security Alerts
+                </a>
+                <a href="#" class="nav-item" data-section="education">
+                    <span class="icon">📚</span> Education
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-title">
+                    <h2>Welcome to Securo Cybershield</h2>
+                    <p>Your AI-powered cybersecurity protection platform</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn-refresh" onclick="refreshData()">🔄 Refresh</button>
+                    <div class="user-info">
+                        <span>👤 User</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="section active">
+                <div class="section-title">
+                    <h2>Security Overview</h2>
+                </div>
+
+                <!-- Security Score Card -->
+                <div class="cards-grid">
+                    <div class="card security-score" id="securityScoreCard">
+                        <div class="card-header">Security Score</div>
+                        <div class="score-circle">
+                            <div class="score-value" id="scoreValue">--</div>
+                            <div class="score-label" id="scoreLabel">Loading...</div>
+                        </div>
+                        <div class="score-details" id="scoreDetails"></div>
+                    </div>
+
+                    <!-- Alert Summary -->
+                    <div class="card alert-summary">
+                        <div class="card-header">Alert Summary</div>
+                        <div class="alert-stats" id="alertStats">
+                            <div class="stat-item critical">
+                                <span class="label">Critical</span>
+                                <span class="count" id="criticalCount">0</span>
+                            </div>
+                            <div class="stat-item high">
+                                <span class="label">High</span>
+                                <span class="count" id="highCount">0</span>
+                            </div>
+                            <div class="stat-item medium">
+                                <span class="label">Medium</span>
+                                <span class="count" id="mediumCount">0</span>
+                            </div>
+                            <div class="stat-item low">
+                                <span class="label">Low</span>
+                                <span class="count" id="lowCount">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="card quick-actions">
+                        <div class="card-header">Quick Actions</div>
+                        <div class="actions-list">
+                            <button class="action-btn" onclick="scrollToSection('phishing')">
+                                🔗 Check URL
+                            </button>
+                            <button class="action-btn" onclick="scrollToSection('password')">
+                                🔑 Check Password
+                            </button>
+                            <button class="action-btn" onclick="scrollToSection('education')">
+                                📖 Learn Now
+                            </button>
+                            <button class="action-btn" onclick="clearAllAlerts()">
+                                🗑️ Clear Alerts
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Alerts -->
+                <div class="card full-width">
+                    <div class="card-header">Recent Security Alerts</div>
+                    <div class="alerts-list" id="alertsList">
+                        <p class="empty-state">No alerts at this time. Your system is secure! ✅</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Phishing Detection Section -->
+            <section id="phishing" class="section">
+                <div class="section-title">
+                    <h2>Phishing Detection Tool</h2>
+                    <p>Analyze URLs and emails for phishing indicators</p>
+                </div>
+
+                <div class="cards-grid">
+                    <!-- URL Analysis -->
+                    <div class="card">
+                        <div class="card-header">Analyze URL</div>
+                        <form id="urlAnalysisForm" onsubmit="analyzeURL(event)">
+                            <div class="form-group">
+                                <label>Enter URL</label>
+                                <input type="text" id="urlInput" placeholder="https://example.com" required>
+                            </div>
+                            <button type="submit" class="btn-primary">Analyze URL</button>
+                        </form>
+                        <div id="urlResult" class="result-box"></div>
+                    </div>
+
+                    <!-- Email Analysis -->
+                    <div class="card">
+                        <div class="card-header">Analyze Email</div>
+                        <form id="emailAnalysisForm" onsubmit="analyzeEmail(event)">
+                            <div class="form-group">
+                                <label>Sender Email</label>
+                                <input type="email" id="emailSender" placeholder="sender@example.com">
+                            </div>
+                            <div class="form-group">
+                                <label>Email Content</label>
+                                <textarea id="emailContent" placeholder="Paste email content here..." rows="5" required></textarea>
+                            </div>
+                            <button type="submit" class="btn-primary">Analyze Email</button>
+                        </form>
+                        <div id="emailResult" class="result-box"></div>
+                    </div>
+                </div>
+
+                <!-- Phishing Tips -->
+                <div class="card full-width">
+                    <div class="card-header">🔍 Phishing Detection Tips</div>
+                    <div class="tips-list">
+                        <div class="tip">
+                            <strong>🔗 Check URLs:</strong> Hover over links to see the actual URL before clicking
+                        </div>
+                        <div class="tip">
+                            <strong>🔐 HTTPS Only:</strong> Legitimate sites use HTTPS encryption
+                        </div>
+                        <div class="tip">
+                            <strong>⚠️ Urgency Language:</strong> Phishing emails often demand immediate action
+                        </div>
+                        <div class="tip">
+                            <strong>🎯 Suspicious Requests:</strong> Never share passwords or personal info via email
+                        </div>
+                        <div class="tip">
+                            <strong>📧 Verify Sender:</strong> Check sender email address carefully - similar names are common
+                        </div>
+                        <div class="tip">
+                            <strong>📎 Attachments:</strong> Be cautious of unexpected attachments from unknown sources
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Password Security Section -->
+            <section id="password" class="section">
+                <div class="section-title">
+                    <h2>Password Security Tools</h2>
+                    <p>Evaluate and generate strong passwords</p>
+                </div>
+
+                <div class="cards-grid">
+                    <!-- Password Evaluator -->
+                    <div class="card">
+                        <div class="card-header">Evaluate Password Strength</div>
+                        <form id="passwordEvalForm" onsubmit="evaluatePassword(event)">
+                            <div class="form-group">
+                                <label>Enter Password</label>
+                                <input type="password" id="passwordInput" placeholder="Enter password..." required>
+                                <small>Your password is never sent to our servers</small>
+                            </div>
+                            <button type="submit" class="btn-primary">Evaluate Strength</button>
+                        </form>
+                        <div id="passwordResult" class="result-box"></div>
+                    </div>
+
+                    <!-- Password Generator -->
+                    <div class="card">
+                        <div class="card-header">Generate Strong Password</div>
+                        <form id="passwordGenForm" onsubmit="generatePassword(event)">
+                            <div class="form-group">
+                                <label>Password Length</label>
+                                <input type="number" id="passwordLength" value="16" min="8" max="32" required>
+                            </div>
+                            <button type="submit" class="btn-primary">Generate Password</button>
+                        </form>
+                        <div id="generatedPassword" class="result-box"></div>
+                    </div>
+
+                    <!-- Breach Checker -->
+                    <div class="card">
+                        <div class="card-header">Check Breach Database</div>
+                        <form id="breachCheckForm" onsubmit="checkPasswordBreach(event)">
+                            <div class="form-group">
+                                <label>Enter Password</label>
+                                <input type="password" id="breachCheckInput" placeholder="Enter password..." required>
+                                <small>Check if password appears in known breaches</small>
+                            </div>
+                            <button type="submit" class="btn-primary">Check Breach</button>
+                        </form>
+                        <div id="breachResult" class="result-box"></div>
+                    </div>
+                </div>
+
+                <!-- Password Requirements -->
+                <div class="card full-width">
+                    <div class="card-header">🔐 Strong Password Requirements</div>
+                    <div class="requirements-grid">
+                        <div class="requirement">
+                            <span class="req-icon">✓</span>
+                            <strong>Minimum 12 Characters</strong>
+                            <p>Longer passwords are harder to crack</p>
+                        </div>
+                        <div class="requirement">
+                            <span class="req-icon">✓</span>
+                            <strong>Uppercase Letters (A-Z)</strong>
+                            <p>Include at least one uppercase letter</p>
+                        </div>
+                        <div class="requirement">
+                            <span class="req-icon">✓</span>
+                            <strong>Lowercase Letters (a-z)</strong>
+                            <p>Include at least one lowercase letter</p>
+                        </div>
+                        <div class="requirement">
+                            <span class="req-icon">✓</span>
+                            <strong>Numbers (0-9)</strong>
+                            <p>Include at least one number</p>
+                        </div>
+                        <div class="requirement">
+                            <span class="req-icon">✓</span>
+                            <strong>Special Characters (!@#$%)</strong>
+                            <p>Include at least one special character</p>
+                        </div>
+                        <div class="requirement">
+                            <span class="req-icon">✓</span>
+                            <strong>Unique for Each Account</strong>
+                            <p>Don't reuse passwords across different sites</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Security Alerts Section -->
+            <section id="alerts" class="section">
+                <div class="section-title">
+                    <h2>Security Alerts Management</h2>
+                    <p>View and manage all security alerts</p>
+                </div>
+
+                <!-- Alert Filters -->
+                <div class="card">
+                    <div class="card-header">Filter Alerts</div>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" onclick="filterAlerts('all')">All</button>
+                        <button class="filter-btn" onclick="filterAlerts('critical')">🔴 Critical</button>
+                        <button class="filter-btn" onclick="filterAlerts('high')">🟠 High</button>
+                        <button class="filter-btn" onclick="filterAlerts('medium')">🟡 Medium</button>
+                        <button class="filter-btn" onclick="filterAlerts('low')">🟢 Low</button>
+                    </div>
+                </div>
+
+                <!-- Alerts Display -->
+                <div class="alerts-container" id="alertsContainer">
+                    <p class="empty-state">No alerts to display</p>
+                </div>
+            </section>
+
+            <!-- Education Section -->
+            <section id="education" class="section">
+                <div class="section-title">
+                    <h2>Cybersecurity Education Hub</h2>
+                    <p>Learn about cyber threats and best practices</p>
+                </div>
+
+                <!-- Courses -->
+                <div class="card full-width">
+                    <div class="card-header">Available Courses</div>
+                    <div class="courses-grid" id="coursesGrid">
+                        <p>Loading courses...</p>
+                    </div>
+                </div>
+
+                <!-- Security Tips -->
+                <div class="card full-width">
+                    <div class="card-header">Daily Security Tips</div>
+                    <div class="tips-container" id="tipsContainer">
+                        <p>Loading tips...</p>
+                    </div>
+                </div>
+
+                <!-- Threat Articles -->
+                <div class="card full-width">
+                    <div class="card-header">Latest Threat News</div>
+                    <div class="articles-list" id="articlesList">
+                        <p>Loading articles...</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="notification" class="notification"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
